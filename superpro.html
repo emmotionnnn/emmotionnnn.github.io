@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emma - Presentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #87CEEB;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .navbar {
+            background: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        .navbar a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .search-bar {
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .container {
+            background: white;
+            padding: 60px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 2s ease-in-out;
+            width: 80%;
+            max-width: 900px;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        p {
+            color: #555;
+            font-size: 1.2em;
+            line-height: 1.6;
+            padding: 0 20px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .highlight {
+            background-color: yellow;
+        }
+
+        /* More Info Box Styles */
+        .more-info-box {
+            display: none;
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            width: 80%;
+            max-width: 500px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            z-index: 100;
+        }
+        .more-info-box p {
+            font-size: 1.2em;
+            color: #333;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: #333;
+        }
+    </style>
+    <script>
+        function searchInText() {
+            let searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            let content = document.querySelector(".container");
+            let text = content.innerHTML;
+            let regex = new RegExp(`(${searchTerm})`, 'gi');
+            content.innerHTML = text.replace(/<span class="highlight">(.*?)<\/span>/g, '$1'); // Remove previous highlights
+            if (searchTerm) {
+                content.innerHTML = content.innerHTML.replace(regex, '<span class="highlight">$1</span>');
+            }
+        }
+
+        function showMoreInfo() {
+            document.getElementById('moreInfoBox').style.display = 'block';
+        }
+
+        function closeMoreInfo() {
+            document.getElementById('moreInfoBox').style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="javascript:void(0);" onclick="showMoreInfo()">More Info</a>
+        <input type="text" id="searchInput" class="search-bar" placeholder="Find in text" onkeyup="searchInText()">
+    </div>
+    <div class="container">
+        <h1>Hi, I'm Emma</h1>
+        <p>Welcome to my page! Here you will find exciting content about my interests, projects, and future plans. Stay tuned for updates, and feel free to explore. More content is coming soon, so check back later! 🚀</p>
+    </div>
+
+    <!-- More Info Box -->
+    <div id="moreInfoBox" class="more-info-box">
+        <button class="close-btn" onclick="closeMoreInfo()">✖</button>
+        <p>Here's more about me: I love exploring new technologies, working on creative projects, and learning new skills. I'm always excited about what's next and love sharing my experiences. Thanks for stopping by!</p>
+    </div>
+</body>
+</html>
