@@ -1,1 +1,212 @@
-/*    /index.html   200
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emma - Presentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #87CEEB;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 1s ease; /* Suaviza el cambio de color */
+        }
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(white 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .navbar {
+            background: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+        }
+        .navbar a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .container {
+            background: white;
+            padding: 60px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 2s ease-in-out;
+            width: 80%;
+            max-width: 900px;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: opacity 1s;
+        }
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .don-pollo {
+            position: absolute;
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .music-mode {
+            background-color: pink;
+            background-image: url('https://www.transparenttextures.com/patterns/music-sheet.png');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+        .vinyl {
+            width: 200px;
+            height: 200px;
+            background-image: url('https://shop.udiscovermusic.com/cdn/shop/products/Frank-Ocean---Channel-Orange-Explicit-1CD.png?v=1639415697');
+            background-size: cover;
+            border-radius: 50%;
+            animation: spin 5s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .highlight {
+            background-color: yellow;
+        }
+        .more-info-box {
+            display: none;
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            width: 80%;
+            max-width: 500px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            z-index: 100;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: #333;
+        }
+        .random-image {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+    </style>
+    <script>
+        let musicModeActive = false;
+        const images = [
+            'https://shop.udiscovermusic.com/cdn/shop/products/Frank-Ocean---Channel-Orange-Explicit-1CD.png?v=1639415697',
+            'https://www.pngplay.com/wp-content/uploads/7/Clef-Note-PNG-Free-File-Download.png',
+            'https://www.goldenchill.com/wp-content/uploads/2022/04/travislogo.png',
+            'https://png.pngtree.com/png-clipart/20231015/original/pngtree-vintage-record-player-vector-illustration-isolated-on-white-png-image_13302577.png'
+        ];
+
+        function showMoreInfo() {
+            document.getElementById('moreInfoBox').style.display = 'block';
+        }
+
+        function closeMoreInfo() {
+            document.getElementById('moreInfoBox').style.display = 'none';
+        }
+
+        function getRandomPosition() {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            return { x, y };
+        }
+
+        function createRandomImages() {
+            images.forEach(image => {
+                const img = document.createElement('img');
+                img.src = image;
+                img.classList.add('random-image');
+                const { x, y } = getRandomPosition();
+                img.style.left = `${x}px`;
+                img.style.top = `${y}px`;
+                document.body.appendChild(img);
+            });
+        }
+
+        function toggleMusicMode() {
+            if (musicModeActive) {
+                // Vuelve al estado normal
+                document.body.style.backgroundColor = "#87CEEB";  // Fondo celeste
+                document.getElementById('mainContent').classList.remove('hidden');
+                document.querySelector('.don-pollo').classList.remove('hidden');
+                musicModeActive = false;
+                // Elimina las imágenes aleatorias
+                const randomImages = document.querySelectorAll('.random-image');
+                randomImages.forEach(img => img.remove());
+            } else {
+                // Entra al modo música
+                document.body.style.backgroundColor = "pink";  // Fondo rosa
+                document.getElementById('mainContent').classList.add('hidden');
+                document.querySelector('.don-pollo').classList.add('hidden');
+                createRandomImages();
+                musicModeActive = true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="navbar">
+        <a href="javascript:void(0);" onclick="toggleMusicMode()">Home</a>
+        <a href="javascript:void(0);" onclick="showMoreInfo()">More Info</a>
+    </div>
+    <div class="container" id="mainContent">
+        <h1>Hi, I'm Emma</h1>
+        <p>Welcome to my page! Here you will find exciting content about my interests, projects, and future plans. Stay tuned for updates, and feel free to explore. More content is coming soon, so check back later! 🚀</p>
+        <img src="https://i.scdn.co/image/ab67616100005174a7b0310b51de297833b75f21" alt="Don Pollo" class="don-pollo">
+    </div>
+    <div id="moreInfoBox" class="more-info-box">
+        <button class="close-btn" onclick="closeMoreInfo()">✖</button>
+        <p>Here's more about me: I love exploring new technologies, working on creative projects, and learning new skills. I'm always excited about what's next and love sharing my experiences. Thanks for stopping by!</p>
+    </div>
+</body>
+</html>
+
